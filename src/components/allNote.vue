@@ -11,35 +11,63 @@
 					<i id='dropdown'></i>
 				</div>
 				<div class="viewModeIcon">
-					<i class='iconCard vw-icon' v-if="viewMode=='card'"  @click='showModeBox'></i>
-					<i class='iconList vw-icon' v-if="viewMode=='list'"  @click='showModeBox'></i>
-					<i class='iconText vw-icon' v-if="viewMode=='text'"  @click='showModeBox'></i>
-					<viewModeBox v-if="isShowModeBox" :viewMode="viewMode"></viewModeBox>
+					<i class='icon-card vw-icon' v-if="getNowViewMode=='card'"  @click='showModeBox'></i>
+					<i class='icon-list vw-icon' v-if="getNowViewMode=='list'"  @click='showModeBox'></i>
+					<i class='icon-text vw-icon' v-if="getNowViewMode=='text'"  @click='showModeBox'></i>
 				</div>
 			</div>
+
+			<viewModeBox v-if="isShowModeBox"
+				:viewMode="getNowViewMode"
+				:isShowModeBox="isShowModeBox"
+				@viewBoxDisappear="showModeBox"
+				>
+			</viewModeBox>
 		</div>
-		
+		<div class="click-bg" v-if="isShowModeBox" @click="showModeBox"></div>
 		<!-- <div id="lineDevide"></div> -->
 		<div class="container-bottom">
-			<div class="cardMode" v-if="viewMode=='card'">
+			<div class="cardMode" v-if="getNowViewMode=='card'">
 				<ul>
-					<li class="card" v-for="(item, index) in getAllNote" :key='index' @click='showNote(index)' :class="{'chosenNote': getShowNoteIndex==index }">
-						<div class="cardHead">
+					<li class="card" v-for="(item, index) in getAllNote" :key='index' @click='showNote(index)' :class="{'chosenCardNote': getShowNoteIndex==index }">
+						<div class="cardHead nt-head">
 							<i class="star" :class="[ item.isStar? 'iconStar' : 'iconStarBorder']"></i>
-							<span class="cardTitle">{{item.title}}</span>
+							<span class="cardTitle nt-title">{{item.title}}</span>
 						</div>
 						<div class="cardline"></div>
-						<div class="cardContent" v-html="item.content">
+						<div class="cardContent nt-content" v-html="item.content">
 							<!-- {{item.content}} -->
 						</div>
-						<div class="cardFoot">
-							<ul class="cardTagsContainer">
-								<li class="cardTag" v-for="(tag, index) in item.tags" :key='index'>
+						<div class="cardFoot nt-foot">
+							<ul class="cardTagsContainer nt-tagContainer">
+								<li class="cardTag nt-tag" v-for="(tag, index) in item.tags" :key='index'>
 									<span>{{tag}}</span>
 								</li>
 							</ul>
 							<span :class="{ 'noInfo': !item.attachment }"><i class="iconAttachment"></i></span>
-							<span class="cardDate">{{item.date}}</span>
+							<span class="cardDate nt-cardDate">{{item.date}}</span>
+						</div>
+					</li>
+				</ul>
+			</div>
+			<div class="listMode" v-if="getNowViewMode=='list'">
+				<ul>
+					<li class="list" v-for="(item, index) in getAllNote" :key='index' @click='showNote(index)' :class="{'chosenListNote': getShowNoteIndex==index }">
+						<div class="listHead nt-head">
+							<i class="star" :class="[ item.isStar? 'iconStar' : 'iconStarBorder']"></i>
+							<span class="listTitle nt-title">{{item.title}}</span>
+						</div>
+						<div class="listContent nt-content" v-html="item.content">
+							<!-- {{item.content}} -->
+						</div>
+						<div class="listFoot nt-foot">
+							<ul class="listTagsContainer nt-tagContainer">
+								<li class="listTag nt-tag" v-for="(tag, index) in item.tags" :key='index'>
+									<span>{{tag}}</span>
+								</li>
+							</ul>
+							<span :class="{ 'noInfo': !item.attachment }"><i class="iconAttachment"></i></span>
+							<span class="listDate nt-cardDate">{{item.date}}</span>
 						</div>
 					</li>
 				</ul>
@@ -54,7 +82,6 @@
 		name: 'allNote',
 		data: function() {
 			return {
-				viewMode: 'card',
 				isShowModeBox: false,
 			}
 		},
@@ -70,6 +97,9 @@
 					return this.$store.state.showNoteIndex
 				}
 			},
+			getNowViewMode: function(){
+				return this.$store.state.nowViewMode
+			}
 		},
 		mounted() {
 			// console.log(this.getAllNote)
@@ -80,7 +110,11 @@
 			},
 			showModeBox: function() {
 				this.isShowModeBox = !this.isShowModeBox
-			}
+			},
+			// viewBoxDisappear: function(event) {
+			// 	// this.isShowModeBox = val
+			// 	console.log(event)
+			// }
 		}
 
 	}
@@ -91,7 +125,7 @@
 	.noInfo {
 		visibility: hidden;
 	}
-	.chosenNote {
+	.chosenCardNote {
 		border: $primary solid 3px;
 	}
 	.containerAllNote {
@@ -108,6 +142,7 @@
 	}
 	.container-top {
 		height: 150px;
+		position:  relative;
 	}
 	.container-bottom {
 		border-top: 2px solid $border-cl;
@@ -116,6 +151,13 @@
 		height: calc(100% - 150px);
 	}
 	.container-bottom::-webkit-scrollbar { width: 0 !important }
+	.click-bg {
+		width: 70vw;
+		height: 100%;
+		// background-color: lightgray;
+		position: absolute;
+		top:0;
+	}
 	#searchContainer {
 		background-color: #E6E6E6;
 		width: 100%;
@@ -134,15 +176,15 @@
 		background: url('../assets/search_24px.svg') center center no-repeat;
 		margin-right: 10px;
 	}
-	.iconCard {
+	.icon-card {
 		background: url('../assets/view_module.svg') center center no-repeat;
 		background-size: cover;
 	}
-	.iconList {
+	.icon-list {
 		background: url('../assets/view_list.svg') center center no-repeat;
 		background-size: cover;
 	}
-	.iconText {
+	.icon-text {
 		background: url('../assets/list.svg') center center no-repeat;
 		background-size: cover;
 	}
@@ -160,6 +202,7 @@
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
+		position: relative;
 
 	}
 	.divContainer>div{
@@ -223,41 +266,46 @@
 		position: relative;
 		box-sizing: border-box;
 	}
-	.cardHead {
+	.cardHead .nt-head {
 		display: flex;
 		align-items: center;
 	}
-	.cardTitle {
+	.cardTitle .nt-title{
 		font-size: 1.2rem;
 		font-weight: 800;
 		color: $title-cl;
 	}
-	.cardContent {
+	.nt-content {
 		font-size: 1.1rem;
 		overflow-y : hidden;
 		text-overflow : ellipsis;
 		line-height: 1.5rem;
-		height: 50%;
-		margin-bottom: 15px;
 		text-align: justify;
 		text-justify: auto;
 		color: $content-cl;
 	}
-	
-	.cardFoot {
+	.cardContent {
+		height: 50%;
+		margin-bottom: 15px;
+	}
+	.nt-foot {
 		// position: absolute;
 		bottom: 0;
 		display: flex;
+		justify-content: space-between;
 		align-items: center;
+	}
+	.nt-tagContainer {
+		overflow: hidden;
+
 	}
 	.cardTagsContainer {
 		width: 65%;
-		overflow: hidden;
 	}
-	.cardTag {
+	.nt-tag {
 		display: inline-block;
 		padding: 3px 8px;
-		margin: 0 5px;
+		margin-right: 10px;
 		border-radius: 5px;
 		height: 25px;
 		background-color: $second;
@@ -265,11 +313,11 @@
 		color: $primary;
 		line-height: 23px;
 	}
-	.cardTag span {
+	.nt-tag span {
 		vertical-align: bottom;
 		font-size: 14px;
 	}
-	.cardDate {
+	.nt-cardDate {
 		color: $time-cl;
 		font-size: 14px;
 	}

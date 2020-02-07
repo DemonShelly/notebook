@@ -81,9 +81,7 @@
 		box-sizing: border-box;
 	}
 	.ql-editor {
-		height: 100vh;
 		padding: 30px 5px 0 5px;
-		// border: none;
 	}
 	.ql-toolbar.ql-snow {
 		
