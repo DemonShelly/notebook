@@ -26,10 +26,11 @@
 		</div>
 		<div class="click-bg" v-if="isShowModeBox" @click="showModeBox"></div>
 		<!-- <div id="lineDevide"></div> -->
-		<div class="container-bottom">
-			<div class="cardMode" v-if="getNowViewMode=='card'">
+		
+		<div class="cardMode" v-if="getNowViewMode=='card'">
+			<div class="container-bottom card-container-bottom ">
 				<ul>
-					<li class="card" v-for="(item, index) in getAllNote" :key='index' @click='showNote(index)' :class="{'chosenCardNote': getShowNoteIndex==index }">
+					<li class="card note" v-for="(item, index) in getAllNote" :key='index' @click='showNote(index)' :class="{'chosenCardNote': getShowNoteIndex==index }">
 						<div class="cardHead nt-head">
 							<i class="star" :class="[ item.isStar? 'iconStar' : 'iconStarBorder']"></i>
 							<span class="cardTitle nt-title">{{item.title}}</span>
@@ -50,15 +51,16 @@
 					</li>
 				</ul>
 			</div>
-			<div class="listMode" v-if="getNowViewMode=='list'">
+		</div>
+		<div class="listMode" v-if="getNowViewMode=='list'">
+			<div class="container-bottom list-container-bottom">
 				<ul>
-					<li class="list" v-for="(item, index) in getAllNote" :key='index' @click='showNote(index)' :class="{'chosenListNote': getShowNoteIndex==index }">
+					<li class="list note" v-for="(item, index) in getAllNote" :key='index' @click='showNote(index)' :class="{'chosenListNote': getShowNoteIndex==index }">
 						<div class="listHead nt-head">
 							<i class="star" :class="[ item.isStar? 'iconStar' : 'iconStarBorder']"></i>
 							<span class="listTitle nt-title">{{item.title}}</span>
 						</div>
 						<div class="listContent nt-content" v-html="item.content">
-							<!-- {{item.content}} -->
 						</div>
 						<div class="listFoot nt-foot">
 							<ul class="listTagsContainer nt-tagContainer">
@@ -73,7 +75,18 @@
 				</ul>
 			</div>
 		</div>
-		
+		<div class="textMode" v-if="getNowViewMode=='text'">
+			<div class="container-bottom text-container-bottom">
+				<ul>
+					<li class="text note" v-for="(item, index) in getAllNote" :key='index' @click='showNote(index)' :class="{'chosenListNote': getShowNoteIndex==index }">
+						<div class="textHead nt-head">
+							<span class="textDate nt-cardDate">{{item.date}}</span>
+							<span class="textTitle nt-title">{{item.title}}</span>
+						</div>
+					</li>
+				</ul>
+			</div>
+		</div>
 	</div>
 </template>
 <script>
@@ -135,7 +148,7 @@
 		position: relative;
 		border-right: 2px solid $border-cl;
 	}
-	.container-top, .container-bottom {
+	.container-top, .card-container-bottom {
 		padding: $main-padding;
 		padding-bottom: 0;
 		box-sizing: border-box;
@@ -146,9 +159,11 @@
 	}
 	.container-bottom {
 		border-top: 2px solid $border-cl;
-		padding-top: 10px;
 		overflow-y: scroll;
 		height: calc(100% - 150px);
+	}
+	.card-container-bottom {
+		padding-top: 10px;
 	}
 	.container-bottom::-webkit-scrollbar { width: 0 !important }
 	.click-bg {
@@ -196,7 +211,7 @@
 	#dropdown {
 		background: url('../assets/down.svg') center center no-repeat;
 	}
-//container
+/////container
 	.divContainer {
 		margin:20px 0;
 		display: flex;
@@ -229,7 +244,8 @@
 	.star {
 		width: 15px;
 		height: 15px;
-		margin: 0 7px;
+		margin-right: 7px;
+		margin-left: 3px;
 	}
 	.iconStar {
 		background: url('../assets/star.svg') center center no-repeat;
@@ -249,10 +265,11 @@
 		transform: rotate(90deg);
 		top: 2px;
 	}
-	.cardMode {
-		// margin-top: 10px;
-		// overflow-y: scroll;
+	.note {
+		box-sizing: border-box;
+		position: relative;
 	}
+/////card
 	.card{
 		margin: 20px auto;
 		background-color: #ffffff;
@@ -261,10 +278,8 @@
 		// border: none;
 		border-radius: 5px;
 		padding: 25px 20px;
-		box-sizing: border-box;
 		box-shadow: 1px 1px 7px 1px rgba(0,0,0,0.05);
 		position: relative;
-		box-sizing: border-box;
 	}
 	.cardHead .nt-head {
 		display: flex;
@@ -320,5 +335,52 @@
 	.nt-cardDate {
 		color: $time-cl;
 		font-size: 14px;
+	}
+/////list
+	.list {
+		// width: 100%;
+		border-bottom: 1px solid $border-cl;
+		padding: 15px 35px;
+	}
+	.listContent {
+		height: 50px;
+		font-size: 1rem;
+		margin-bottom: 10px;
+	}
+	.listHead {
+		margin-bottom: 10px;
+	}
+	.listTitle {
+		font-size: 1.1rem;
+	}
+	.chosenListNote {
+		background-color: $second;
+	}
+/////text
+	.text {
+		height:50px;
+		padding: 10px 25px;
+		border-bottom: 1px solid $border-cl;
+		display: flex;
+		align-items: center;
+	}
+	.textHead {
+		font-size: 1.2rem;
+		display: flex;
+		// justify-content: space-between;
+		align-items: center;
+	}
+	.textTitle {
+		font-size: 1.1rem;
+		font-weight: 900;
+		// width: 100%;
+		position: absolute;
+		left: 115px;
+		overflow: hidden;
+	}
+	.textDate {
+		font-weight: 1rem;
+		width:75px;
+		margin-right: 20px;
 	}
 </style>
