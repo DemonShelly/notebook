@@ -108,6 +108,7 @@
 	.sideBarIcon {
 		background-size: cover;
 		margin-right: 10px;
+		filter: invert(100%) sepia(20%) saturate(5090%) hue-rotate(209deg) brightness(122%) contrast(111%);
 	}
 	.sideBarEach {
 		display: flex;
