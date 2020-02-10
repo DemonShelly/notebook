@@ -26,9 +26,9 @@
 		</div>
 		<div class="click-bg" v-if="isShowModeBox" @click="showModeBox"></div>
 		<!-- <div id="lineDevide"></div> -->
-		
-		<div class="cardMode" v-if="getNowViewMode=='card'">
-			<div class="container-bottom card-container-bottom ">
+
+		<!-- <div class="cardMode" > -->
+			<div class="container-bottom card-container-bottom " v-if="getNowViewMode=='card'">
 				<ul>
 					<li class="card note" v-for="(item, index) in getAllNote" :key='index' @click='showNote(index)' :class="{'chosenCardNote': getShowNoteIndex==index }">
 						<div class="cardHead nt-head">
@@ -51,9 +51,9 @@
 					</li>
 				</ul>
 			</div>
-		</div>
-		<div class="listMode" v-if="getNowViewMode=='list'">
-			<div class="container-bottom list-container-bottom">
+		<!-- </div> -->
+		<!-- <div class="listMode" v-if="getNowViewMode=='list'"> -->
+			<div class="container-bottom list-container-bottom" v-if="getNowViewMode=='list'">
 				<ul>
 					<li class="list note" v-for="(item, index) in getAllNote" :key='index' @click='showNote(index)' :class="{'chosenListNote': getShowNoteIndex==index }">
 						<div class="listHead nt-head">
@@ -74,9 +74,9 @@
 					</li>
 				</ul>
 			</div>
-		</div>
-		<div class="textMode" v-if="getNowViewMode=='text'">
-			<div class="container-bottom text-container-bottom">
+		<!-- </div> -->
+		<!-- <div class="textMode" v-if="getNowViewMode=='text'"> -->
+			<div class="container-bottom text-container-bottom" v-if="getNowViewMode=='text'">
 				<ul>
 					<li class="text note" v-for="(item, index) in getAllNote" :key='index' @click='showNote(index)' :class="{'chosenListNote': getShowNoteIndex==index }">
 						<div class="textHead nt-head">
@@ -86,7 +86,7 @@
 					</li>
 				</ul>
 			</div>
-		</div>
+		<!-- </div> -->
 	</div>
 </template>
 <script>
@@ -124,10 +124,6 @@
 			showModeBox: function() {
 				this.isShowModeBox = !this.isShowModeBox
 			},
-			// viewBoxDisappear: function(event) {
-			// 	// this.isShowModeBox = val
-			// 	console.log(event)
-			// }
 		}
 
 	}
@@ -159,7 +155,7 @@
 	}
 	.container-bottom {
 		border-top: 2px solid $border-cl;
-		overflow-y: scroll;
+		overflow: scroll;
 		height: calc(100% - 150px);
 	}
 	.card-container-bottom {
@@ -183,7 +179,7 @@
 		padding: 0 15px;
 		box-sizing: border-box;
 	}
-// icon
+//////icon
 	.vw-icon {
 		cursor: pointer;
 	}

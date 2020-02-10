@@ -1,7 +1,8 @@
 <template>
 	<div class="containerSideBar ">
 		<div class="col" id='logo'>
-			
+			<!-- <img id='noteLogo' src="../assets/logo.png" alt=""> -->
+			<span>FreeNote .</span>
 		</div>
 		<div class="col">
 			<div id='createNote' @click='addNewNote()'>
@@ -13,8 +14,11 @@
 		</div>
 		<div>
 			<ul>
-				<li v-for="(item, key) in sideBarList" :key='key'>
-					<i class="sideBarIcon" :style="{background: 'url(' + item.icon + ') center center no-repeat' }"></i>
+				<li v-for="(item, key) in sideBarList" :key='key' class="sideBarEach">
+					<!-- <i class="sideBarIcon" :style="{background: 'url( ~@/assets/' + item.icon + ') center center no-repeat;' }"></i> -->
+					<!-- <i class="sideBarIcon" :style="{ background: 'url(' + require('@/assets/file.svg') + ')' }"></i> -->
+					<i class="sideBarIcon" :style="{ background: 'url(' + require('@/assets/'+item.icon) }"></i>
+					<!-- <i class="sideBarIcon"></i> -->
 					<span>{{ item.title }}</span>
 				</li>
 			</ul>
@@ -36,22 +40,22 @@
 				return [
 					{
 						title: '所有筆記',
-						icon: `${this.iconPath}/file.svg`
+						icon: `file.svg`
 					},{
 						title: '捷徑',
-						icon: `${this.iconPath}/bookmark.svg`
+						icon: `bookmark.svg`
 					},{
 						title: '標籤',
-						icon: `${this.iconPath}/label.svg`
+						icon: `label.svg`
 					},{
 						title: '月曆',
-						icon: `${this.iconPath}/calendar_today.svg`
+						icon: `calendar_today.svg`
 					},{
 						title: '與我共用',
-						icon: `${this.iconPath}/people.svg`
+						icon: `people.svg`
 					},{
 						title: '垃圾桶',
-						icon: `${this.iconPath}/delete.svg`
+						icon: `delete.svg`
 					}
 
 				]
@@ -82,6 +86,7 @@
 <style lang="scss">
 	@import "@/scss/_variables.scss";
 
+
 	* {
 		margin: 0;
 		padding: 0;
@@ -100,11 +105,28 @@
 		height:  25px;
 		background-size: cover;
 	}
+	.sideBarIcon {
+		background-size: cover;
+		margin-right: 10px;
+	}
+	.sideBarEach {
+		display: flex;
+		align-items: center;
+		height: 40px;
+		margin-left: 20px;
+		cursor: pointer;
+	}
 	.containerSideBar {
 		padding: $main-padding;
 		box-sizing: border-box;
 	}
-	#createWrapper {
+	#logo span{
+		width: 100px;
+		font-size: 1.3rem;
+	}
+	#logo {
+		margin-left: 25px;
+	}	#createWrapper {
 		width: 25px;
 		height:  25px;
 		background-color: #2F419B;
@@ -127,7 +149,7 @@
 		height:45px;
 		background-color: #ffffff;
 		color: #2F419B;
-		margin: auto;
+		margin: 25px auto;
 		font-weight: 800;
 		display: flex;
 		justify-content: center;
