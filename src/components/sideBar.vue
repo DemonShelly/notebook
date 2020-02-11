@@ -64,7 +64,7 @@
 		methods: {
 			addNewNote: function() {
 				this.$store.state.allNote.push({
-					title: '無標題',
+					title: '',
 					content: '',
 					tag: '',
 					attachment: '',
@@ -104,6 +104,9 @@
 		width: 25px;
 		height:  25px;
 		background-size: cover;
+	}
+	input {
+		outline: none;
 	}
 	.sideBarIcon {
 		background-size: cover;

@@ -1,11 +1,23 @@
 <template>
 	<div class="containerEditPage ">
+        <input type="text" name="" id='editTitle' placeholder="無標題" v-model="getNoteTitle">
+        <div class="editlabel">
+            <ul class="editTagsContainer nt-tagContainer">
+                <li class=" nt-tag" v-for="(tag, index) in getNoteObj.tags" :key='index'>
+                    <span>{{tag}}</span>
+                </li>
+                <li class="addNewLabel">Add +</li>
+            </ul>
+        </div>
 		<quill-editor ref="myTextEditor"
-                      :content="getNoteContent"
+                      v-model="getNoteContent"
                       :options="editorOption"
-                      @change="onEditorChange($event)"
-                      :title="getNoteTitle">
+                      id="editContent"
+                      >
+
         </quill-editor>
+        <!-- :content="getNoteContent"
+         @change="onEditorChange($event)" -->
         <!-- <editTitle/> -->
 	</div>
 </template>
@@ -14,34 +26,32 @@
 	import 'quill/dist/quill.snow.css'
 	import 'quill/dist/quill.bubble.css'
 	import { quillEditor } from 'vue-quill-editor'
-	// import editTitle from './editTitle.vue'
 
 	export default {
 		name: 'editPage',
 		components: {
 			quillEditor,
-			// editTitle,
 		},
 		data: function() {
 			return {
 				content: '',
-				editorOption: { /* quill options */ },
+				editorOption: {
+					placeholder: "請寫下內容"
+				},
+				title: '',
+				editorOptionTitle: {
+					theme: 'bubble',
+					placeholder: "無標題",
+				},
 			}
 		},
 		methods: {
-			onEditorChange({ quill, html, text }) {
-				console.log('editor change!', quill, html, text)
-				this.getNoteContent = html
-			},
 			addTitleInEdit(){
 				let edit = document.querySelector('.ql-editor')
 				console.log(edit)
-			}
+			},
 		},
 		computed: {
-			// editor() {
-			// 	return this.$refs.myQuillEditor.quill
-			// },
 			getShowNoteIndex: function () {
 				return this.$store.state.showNoteIndex
 			},
@@ -63,7 +73,10 @@
 				set: function (value) {
 					this.getNoteObj.content = value
 				}
-			}
+			},
+            getAllNote: function(){
+                return this.$store.state.allNote
+            },
 
 		},
 		mounted() {
@@ -74,6 +87,7 @@
 </script>
 <style lang="scss">
 	@import "@/scss/_variables.scss";
+/////content && toolbar
 	.containerEditPage {
 		height: 100vh;
 		width: 52%;
@@ -81,9 +95,65 @@
 		box-sizing: border-box;
 	}
 	.ql-editor {
-		padding: 30px 5px 0 5px;
+		padding: 0 5px;
 	}
-	.ql-toolbar.ql-snow {
-		
+	#editContent {
+		position: relative;
 	}
+	#editContent .ql-container {
+		position: absolute;
+		top: 190px;
+		width: 100%;
+	}
+	#editContent .ql-editor {
+		overflow-y: scroll;
+		height: calc(100vh - 240px);
+	}
+	#editContent .ql-editor::-webkit-scrollbar { width: 0 !important }
+
+/////title
+	#editTitle {
+		position: absolute;
+		height: 30px;
+		top: 140px;
+		z-index: 200;
+		width: calc(52% - 70px);
+		border: none;
+		padding: 0 5px;
+		font-size: 1.3rem;
+		outline: none;
+	}
+    #editTitle::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+      color: lightgray;
+      opacity: 1; /* Firefox */
+    }
+	.ql-editor.ql-blank::before {
+		font-style: normal;
+        color: lightgray;
+		left: 5px;
+	}
+/////label
+    .editlabel {
+        position: absolute;
+        top: 185px;
+        z-index: 555;
+        padding:0 5px;
+        font-size: 0.8rem;
+        width: calc(52% - 70px);
+    }
+    .editlabel li {
+        font-size: 0.8rem;
+        padding: 2px 10px;
+        border-radius: 8px;
+        cursor: pointer;
+    }
+    .addNewLabel {
+        color: lightgray;
+        border: 1px dashed lightgray;
+        display: flex;
+        align-items: center;
+    }
+    .editTagsContainer {
+        display: flex;
+    }
 </style>
