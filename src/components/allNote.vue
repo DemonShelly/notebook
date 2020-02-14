@@ -32,7 +32,7 @@
 				<ul>
 					<li class="card note" v-for="(item, index) in getAllNote" :key='index' @click='showNote(index)' :class="{'chosenCardNote': getShowNoteIndex==index }">
 						<div class="cardHead nt-head">
-							<i class="star" :class="[ item.isStar? 'iconStar' : 'iconStarBorder']"></i>
+							<i class="star" :class="[ item.isStar? 'iconStar' : 'iconStarBorder']"  @click='changeStar(index)'></i>
 							<span class="cardTitle nt-title" v-text="item.title"></span>
 						</div>
 						<div class="cardline"></div>
@@ -57,7 +57,7 @@
 				<ul>
 					<li class="list note" v-for="(item, index) in getAllNote" :key='index' @click='showNote(index)' :class="{'chosenListNote': getShowNoteIndex==index }">
 						<div class="listHead nt-head">
-							<i class="star" :class="[ item.isStar? 'iconStar' : 'iconStarBorder']" @click='changeStar(item)'></i>
+							<i class="star" :class="[ item.isStar? 'iconStar' : 'iconStarBorder']" @click='changeStar(index)' ></i>
 							<span class="listTitle nt-title">{{item.title}}</span>
 						</div>
 						<div class="listContent nt-content" v-html="item.content">
@@ -124,9 +124,8 @@
 			showModeBox: function() {
 				this.isShowModeBox = !this.isShowModeBox
 			},
-			changeStar: function(item) {
-				// item.isStar = !item.isStar
-				console.log(item)
+			changeStar: function(index) {
+				this.getAllNote[index].isStar = !this.getAllNote[index].isStar
 			}
 		}
 
