@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <sideBar/>
-    <allNote/>
+    <noteDisplay/>
     <editPage/>
   </div>
 </template>
@@ -9,14 +9,14 @@
 <script>
 // @ is an alias to /src
 import sideBar from '@/components/sideBar.vue'
-import allNote from '@/components/allNote.vue'
+import noteDisplay from '@/components/noteDisplay.vue'
 import editPage from '@/components/editPage.vue'
 
 export default {
   name: 'home',
   components: {
     sideBar,
-    allNote,
+    noteDisplay,
     editPage
   }
 }

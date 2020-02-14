@@ -14,11 +14,9 @@
 		</div>
 		<div>
 			<ul>
-				<li v-for="(item, key) in sideBarList" :key='key' class="sideBarEach">
+				<li v-for="(item, key) in sideBarList" :key='key' class="sideBarEach" @click="changeNoteDisplay(item.title)">
 					<!-- <i class="sideBarIcon" :style="{background: 'url( ~@/assets/' + item.icon + ') center center no-repeat;' }"></i> -->
-					<!-- <i class="sideBarIcon" :style="{ background: 'url(' + require('@/assets/file.svg') + ')' }"></i> -->
 					<i class="sideBarIcon" :style="{ background: 'url(' + require('@/assets/'+item.icon) }"></i>
-					<!-- <i class="sideBarIcon"></i> -->
 					<span>{{ item.title }}</span>
 				</li>
 			</ul>
@@ -37,28 +35,7 @@
 		},
 		computed: {
 			sideBarList: function() {
-				return [
-					{
-						title: '所有筆記',
-						icon: `file.svg`
-					},{
-						title: '捷徑',
-						icon: `bookmark.svg`
-					},{
-						title: '標籤',
-						icon: `label.svg`
-					},{
-						title: '月曆',
-						icon: `calendar_today.svg`
-					},{
-						title: '與我共用',
-						icon: `people.svg`
-					},{
-						title: '垃圾桶',
-						icon: `delete.svg`
-					}
-
-				]
+				return this.$store.state.sideBarList
 			}
 		},
 		methods: {
@@ -79,6 +56,9 @@
 				let d = date.getDate()
 				let res = `${y}/${m}/${d}`
 				return res
+			},
+			changeNoteDisplay: function(title) {
+				this.$store.state.nowDisplay = title
 			}
 		}
 	}

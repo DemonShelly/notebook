@@ -1,33 +1,6 @@
 <template>
-	<div class="containerAllNote ">
-		<div class="container-top">
-			<div id='searchContainer'>
-				<i id='iconSearch'></i>
-				<input type="" name="search" id='searchBar' placeholder="搜尋您的筆記" >
-			</div>
-			<div class="divContainer">
-				<div>
-					<span>所有筆記</span>
-					<i id='dropdown'></i>
-				</div>
-				<div class="viewModeIcon">
-					<i class='icon-card vw-icon' v-if="getNowViewMode=='card'"  @click='showModeBox'></i>
-					<i class='icon-list vw-icon' v-if="getNowViewMode=='list'"  @click='showModeBox'></i>
-					<i class='icon-text vw-icon' v-if="getNowViewMode=='text'"  @click='showModeBox'></i>
-				</div>
-			</div>
-
-			<viewModeBox v-if="isShowModeBox"
-				:viewMode="getNowViewMode"
-				:isShowModeBox="isShowModeBox"
-				@viewBoxDisappear="showModeBox"
-				>
-			</viewModeBox>
-		</div>
-		<div class="click-bg" v-if="isShowModeBox" @click="showModeBox"></div>
-		<!-- <div id="lineDevide"></div> -->
-
-		<!-- <div class="cardMode" > -->
+	<div class="allNote nt-container" v-if="getNowDisplay=='所有筆記'">
+		<!-- card mode -->
 			<div class="container-bottom card-container-bottom " v-if="getNowViewMode=='card'">
 				<ul>
 					<li class="card note" v-for="(item, index) in getAllNote" :key='index' @click='showNote(index)' :class="{'chosenCardNote': getShowNoteIndex==index }">
@@ -37,7 +10,6 @@
 						</div>
 						<div class="cardline"></div>
 						<div class="cardContent nt-content" v-html="item.content">
-							<!-- {{item.content}} -->
 						</div>
 						<div class="cardFoot nt-foot">
 							<ul class="cardTagsContainer nt-tagContainer">
@@ -51,13 +23,12 @@
 					</li>
 				</ul>
 			</div>
-		<!-- </div> -->
-		<!-- <div class="listMode" v-if="getNowViewMode=='list'"> -->
+			<!-- list mode -->
 			<div class="container-bottom list-container-bottom" v-if="getNowViewMode=='list'">
 				<ul>
 					<li class="list note" v-for="(item, index) in getAllNote" :key='index' @click='showNote(index)' :class="{'chosenListNote': getShowNoteIndex==index }">
 						<div class="listHead nt-head">
-							<i class="star" :class="[ item.isStar? 'iconStar' : 'iconStarBorder']" @click='changeStar(index)' ></i>
+							<i class="star" :class="[ item.isStar? 'iconStar' : 'iconStarBorder']" @click='changeStar(index)' gi></i>
 							<span class="listTitle nt-title">{{item.title}}</span>
 						</div>
 						<div class="listContent nt-content" v-html="item.content">
@@ -74,8 +45,7 @@
 					</li>
 				</ul>
 			</div>
-		<!-- </div> -->
-		<!-- <div class="textMode" v-if="getNowViewMode=='text'"> -->
+			<!-- text mode -->
 			<div class="container-bottom text-container-bottom" v-if="getNowViewMode=='text'">
 				<ul>
 					<li class="text note" v-for="(item, index) in getAllNote" :key='index' @click='showNote(index)' :class="{'chosenListNote': getShowNoteIndex==index }">
@@ -86,11 +56,9 @@
 					</li>
 				</ul>
 			</div>
-		<!-- </div> -->
 	</div>
 </template>
 <script>
-	import viewModeBox from "@/components/viewModeBox.vue"
 	export default {
 		name: 'allNote',
 		data: function() {
@@ -98,10 +66,10 @@
 				isShowModeBox: false,
 			}
 		},
-		components: {
-			viewModeBox
-		},
 		computed: {
+			getNowDisplay: function(){
+				return this.$store.state.nowDisplay
+			},
 			getAllNote: function(){
 				return this.$store.state.allNote
 			},
@@ -134,6 +102,9 @@
 <style lang="scss">
 	@import "@/scss/_variables.scss";
 	// $primary: #2F419B;
+	.nt-container {
+		height: calc( 100% - 150px);
+	}
 	.noInfo {
 		visibility: hidden;
 	}
@@ -159,7 +130,7 @@
 	.container-bottom {
 		border-top: 2px solid $border-cl;
 		overflow: scroll;
-		height: calc(100% - 150px);
+		height: 100%;
 	}
 	.card-container-bottom {
 		padding-top: 10px;

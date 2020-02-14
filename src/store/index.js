@@ -24,6 +24,28 @@ export default new Vuex.Store({
 		date: '',
 		isStar: false
 	},
+	nowDisplay: '所有筆記',
+	sideBarList: [
+		{
+			title: '所有筆記',
+			icon: `file.svg`
+		},{
+			title: '捷徑',
+			icon: `bookmark.svg`
+		},{
+			title: '標籤',
+			icon: `label.svg`
+		},{
+			title: '月曆',
+			icon: `calendar_today.svg`
+		},{
+			title: '與我共用',
+			icon: `people.svg`
+		},{
+			title: '垃圾桶',
+			icon: `delete.svg`
+		}
+	],
 	nowViewMode: 'card',
 	allViewMode: [
 		{
