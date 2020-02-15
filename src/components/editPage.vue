@@ -96,6 +96,7 @@
 	}
 	.ql-editor {
 		padding: 0 5px;
+    border: none !important;
 	}
 	#editContent {
 		position: relative;
@@ -110,6 +111,14 @@
 		height: calc(100vh - 240px);
 	}
 	#editContent .ql-editor::-webkit-scrollbar { width: 0 !important }
+  .ql-toolbar.ql-snow {
+    border: none ; 
+    padding: 0 0 10px 0;
+    border-bottom: 2px solid #DDDEE0;
+  }
+  .ql-container {
+   border: none !important;  
+  }
 
 /////title
 	#editTitle {
