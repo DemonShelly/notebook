@@ -1,5 +1,7 @@
 # note
 
+https://demonshelly.github.io/notebook/
+
 ## Project setup
 ```
 npm install
